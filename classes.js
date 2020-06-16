@@ -29,7 +29,18 @@
   Call your class Employee and receive all the data in the constructor in the order listed above.
 */
 
-//Code Here
+class Employee{
+  constructor(first_name, last_name, email, age){
+    this.first_name = first_name,
+    this.last_name = last_name,
+    this.email = email,
+    this.age = age
+  }
+
+  makeWidget(){
+    return `${this.first_name} ${this.last_name} Widget`
+  }
+}
 
 
 ////////// PROBLEM 2 //////////
@@ -47,8 +58,19 @@
   Call your new class Manager
 */
 
-//Code Here
 
+class Manager extends Employee{
+  constructor(first_name, last_name, email, age, reports){
+    super(first_name, last_name, email, age);
+    this.reports=[]
+  }
+  hire(employee){
+        this.reports.push(employee)
+      }
+  fire(index){
+        this.reports.splice(index, 1)
+      }
+}
 
 ////////// PROBLEM 3 //////////
 
@@ -71,7 +93,43 @@
   Call your new class ProgressiveManager
 */
 
-//Code Here
+//checkpoint!!!!
+
+class ProgressiveManager extends Manager{
+  constructor(first_name, last_name, email, age, reports, title, bonus){
+    super(first_name, last_name, email, age, reports);
+    this.title='Not a manager';
+    this.bonus = 0;
+  }
+
+checkReports(){
+  if (this.reports.length===0){
+    this.title='Not a manager';
+  } else if(this.reports.length < 4){
+    this.title = 'Barely Manager'
+  } else if(this.reports.length < 11){
+    this.title='Mostly Manager'
+  } else if(this.reports.length <51){
+    this.title='Manager'
+  }else if(this.reports.length < 101){
+    this.title='Manager Plus'
+  }else{
+    this.title='Bestest Manager'
+  }
+}
+
+ fire(){
+   super.fire();
+   this.bonus +=100;
+   this.checkReports();
+ }
+
+ hire(){
+   super.hire();
+   this.checkReports()
+ }
+
+}
 
 
 
@@ -99,5 +157,41 @@
 */
 
 //Code Here
+class Machine{
+  constructor(){
+    this.widgets_made_count=0;
+    this.wear_and_tear_count=0;
+    this.needs_reboot=false;
+  }
 
+  makeWidgets(num){
+    // let checker=0;
+    this.widgets_made_count +=num;
+    // let divis50=Math.floor(this.widgets_made_count / 50);
+    // if(divis50 >= checker){
+    //   this.wear_and_tear_count+=(divis50-checker);
+    //   checker+=(divis50-checker);
+    // }
+  }
 
+  fixMachine(){
+    this.needs_reboot=true;
+
+  }
+
+  reboot(){
+    return function(){
+      this.wear_and_tear_count-=10;
+      this.needs_reboot = false;
+    }
+  }
+}
+
+let robo = new Machine();
+// robo.fixMachine()
+robo.makeWidgets(10000)
+console.log(robo)
+robo.makeWidgets(10)
+console.log(robo)
+robo.reboot()
+console.log(robo)
